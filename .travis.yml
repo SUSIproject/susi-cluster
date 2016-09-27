@@ -8,3 +8,13 @@ before_install:
 
 script:
   - docker run -v $(pwd):/src trusch/susi-builder:stable
+  - cp build/*.deb ./susi-cluster-${TRAVIS_BRANCH}-linux-amd64.deb
+
+deploy:
+  provider: releases
+  file: "susi-cluster-${TRAVIS_BRANCH}-linux-amd64.deb"
+  skip_cleanup: true
+  on:
+    tags: true
+  api_key:
+    secure: QU3D6gTyt2Lc9UGxPB+/xzpQU+T3c1kLFTFIAA/seJ40riKC0oHeAVk9wLaD69wefk4sZ3MmlhGKZ2E+1gzocK8k2m9yYqqg2sdhNM/A5/9oavDxufxEqFo6jsLSxj2QQ26RTuR1kbf6/sh3LlGaMNGCs4YFmcnC0kPcULIVmFEjr5/EwKuN3+FgpVqjx0TEiIkCvO4MOzaMSGe6wyb5Rl+6A8A4EdQWrqqvEVvUjHCI8ix+Z35jHgYXDtZBG9P1RGpwRVdsfDFjxKv4prJy6y6BKM7CH7pYfGbTXubPtUsiK4x5Rj1EH5ZHgDBkczZnXhGo/Uff+8mDgqLBvkFumlb7aby1vW1dNi4ma6h8QBMdN9Jt/uSDuySaOSuOuexbSnNBL2CfAhldrGW+YVvIRot+upzMDmjTt0Y9w7FelCaO6Afweti2n0RWJgnU22ROoan6VrxsrcW26Xogm/Vfcx3075mdmmqw5B81oBj2+byeMwNEJJLs6IKGNC4zIWXQrHG2KXUNbdnodr/cuaSy6OuI4ySbpsp6gb5pKqX6jvup4Xm+c+Edp7EQEzPmbOkWKpRQRh+xUNgofVDQrlmx9RV543rQklQBG8kvSq56VlAyCQZXZGUGvBo7qSqvyfeV+94YbLuRLT7hO98bJwCu3L9DZ2RTNg8bChEUmXsPALI=
