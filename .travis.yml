@@ -7,8 +7,8 @@ before_install:
   - docker login -u="$QUAYIO_USERNAME" -p="$QUAYIO_PASSWORD" quay.io
 
 script:
-  - docker run -w /go/src/github.com/SUSIproject/cluster -v $(shell pwd):/go/src/github.com/SUSIproject/cluster golang bash -c "go get -v github.com/SUSIproject/cluster; cp /go/bin/cluster /go/src/github.com/SUSIproject/cluster/susi-cluster-${TRAVIS_BRANCH}-linux-amd64"
-  - docker run -w /go/src/github.com/SUSIproject/cluster -v $(shell pwd):/go/src/github.com/SUSIproject/cluster golang bash -c "GOOS=linux GOARCH=arm go get -v github.com/SUSIproject/cluster; cp /go/bin/cluster /go/src/github.com/SUSIproject/cluster/susi-cluster-${TRAVIS_BRANCH}-linux-armhf"
+  - docker run -w /go/src/github.com/SUSIproject/cluster -v $(pwd):/go/src/github.com/SUSIproject/cluster golang bash -c "go get -v github.com/SUSIproject/cluster; cp /go/bin/cluster /go/src/github.com/SUSIproject/cluster/susi-cluster-${TRAVIS_BRANCH}-linux-amd64"
+  - docker run -w /go/src/github.com/SUSIproject/cluster -v $(pwd):/go/src/github.com/SUSIproject/cluster golang bash -c "GOOS=linux GOARCH=arm go get -v github.com/SUSIproject/cluster; cp /go/bin/cluster /go/src/github.com/SUSIproject/cluster/susi-cluster-${TRAVIS_BRANCH}-linux-armhf"
   - docker build -t quay.io/trusch/susi-cluster:${TRAVIS_BRANCH} .
   - docker push quay.io/trusch/susi-cluster:latest
 
