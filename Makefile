@@ -5,7 +5,7 @@ build:
 		-w /go/src/github.com/SUSIproject/cluster \
 		-v $(shell pwd):/go/src/github.com/SUSIproject/cluster \
 		golang bash -c \
-			"go get -v github.com/SUSIproject/cluster; \
+			"go get -v -ldflags '-linkmode external -extldflags -static' github.com/SUSIproject/cluster; \
 			 cp /go/bin/cluster /go/src/github.com/SUSIproject/cluster/susi-cluster-linux-amd64"
 
 docker:
