@@ -1,0 +1,21 @@
+{
+  "local": {
+    "addr": "localhost:4000",
+    "cert": "cert.crt",
+    "key": "key.key"
+  },
+  "nodes": [
+    {
+      "id": "node1",
+      "addr": "node1:4000",
+      "cert": "cert.crt",
+      "key": "key.key",
+      "forwardConsumers": [
+        {
+          "topic": ".*@node1",
+          "stripSuffix": "@node1"
+        }
+      ]
+    }
+  ]
+}

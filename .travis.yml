@@ -4,20 +4,19 @@ services:
   - docker
 
 before_install:
-  - docker pull trusch/susi-builder:stable
-  - docker pull trusch/susi-arm-builder:stable
+  - docker login -u="$QUAYIO_USERNAME" -p="$QUAYIO_PASSWORD" quay.io
 
 script:
-  - docker run -v $(pwd):/src trusch/susi-builder:stable
-  - cp build/*.deb ./susi-cluster-${TRAVIS_BRANCH}-linux-amd64.deb
-  - docker run -v $(pwd):/opt/rootfs/src trusch/susi-arm-builder:stable
-  - cp build/*.deb ./susi-cluster-${TRAVIS_BRANCH}-linux-armhf.deb
+  - docker run -w /go/src/github.com/SUSIproject/cluster -v $(shell pwd):/go/src/github.com/SUSIproject/cluster golang bash -c "go get -v github.com/SUSIproject/cluster; cp /go/bin/cluster /go/src/github.com/SUSIproject/cluster/susi-cluster-${TRAVIS_BRANCH}-linux-amd64"
+  - docker run -w /go/src/github.com/SUSIproject/cluster -v $(shell pwd):/go/src/github.com/SUSIproject/cluster golang bash -c "GOOS=linux GOARCH=arm go get -v github.com/SUSIproject/cluster; cp /go/bin/cluster /go/src/github.com/SUSIproject/cluster/susi-cluster-${TRAVIS_BRANCH}-linux-armhf"
+  - docker build -t quay.io/trusch/susi-cluster:${TRAVIS_BRANCH} .
+  - docker push quay.io/trusch/susi-cluster:latest
 
 deploy:
   provider: releases
   file:
-    - "susi-cluster-${TRAVIS_BRANCH}-linux-amd64.deb"
-    - "susi-cluster-${TRAVIS_BRANCH}-linux-armhf.deb"
+    - "susi-cluster-${TRAVIS_BRANCH}-linux-amd64"
+    - "susi-cluster-${TRAVIS_BRANCH}-linux-armhf"
   skip_cleanup: true
   on:
     tags: true
