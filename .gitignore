@@ -9,3 +9,5 @@ cppcheck_output.txt
 /node_modules
 core
 build
+susi-cluster
+susi-cluster-linux-amd64
